@@ -70,28 +70,92 @@
   </form>
 
   <script>
-    // List of main cities in France
-    const places = ["Bordeaux", "Cannes", "Lille", "Lyon", "Marseille", "Nice", "Paris", "Strasbourg", "Toulouse"];
+    // List of main cities in Paris, France
+  const airports = [
+    "Charles de Gaulle Airport (CDG)",
+    "Orly Airport (ORY)",
+    "Beauvais-Tillé Airport (BVA)",
+    "Le Bourget Airport (LBG)"
+  ];
+  const railwayStations = [
+    "Gare du Nord",
+    "Gare de Lyon",
+    "Gare Montparnasse",
+    "Gare Saint-Lazare",
+    "Gare d’Austerlitz"
+  ];
+  const hotels = [
+    "Hôtel Ritz Paris (5-star)",
+    "Four Seasons Hotel George V Paris (5-star)",
+    "Le Meurice (5-star)",
+    "Shangri-La Hotel Paris (5-star)",
+    "Cheval Blanc Paris (5-star)",
+    // (there is no true “7-star” officially in Paris, but if you want you can label the most luxury)
+    "Hôtel Plaza Athénée (luxury)"
+  ];
+  const parksAndPlaces = [
+    "Eiffel Tower",
+    "Louvre Museum",
+    "Champ de Mars",
+    "Luxembourg Gardens",
+    "Tuileries Garden",
+    "Montmartre / Sacré-Cœur"
+  ];
+  const hospitals = [
+    "Hôpital Européen Georges-Pompidou",
+    "Hôpital Pitié-Salpêtrière",
+    "Hôpital Necker-Enfants Malades"
+  ];
+  const museums = [
+    "Musée du Louvre",
+    "Musée d’Orsay",
+    "Centre Pompidou",
+    "Musée Rodin",
+    "Musée de l’Orangerie"
+  ];
+  const malls = [
+    "Le Bon Marché",
+    "Galeries Lafayette Haussmann",
+    "Forum des Halles",
+    "Carrousel du Louvre"
+  ];
+  const metroAndBus = [
+    "Châtelet–Les Halles (major metro/bus hub)",
+    "Gare de Lyon (metro + bus)",
+    "Montparnasse–Bienvenüe (metro + bus)"
+  ];
 
-    const fromSelect = document.getElementById("from");
-    const toSelect = document.getElementById("to");
+  // Combine all into one list for dropdowns
+  const places = [].concat(
+    airports,
+    railwayStations,
+    hotels,
+    parksAndPlaces,
+    hospitals,
+    museums,
+    malls,
+    metroAndBus
+  );
 
-    // Populate dropdowns alphabetically
-    places.sort().forEach(place => {
-      fromSelect.add(new Option(place, place));
-      toSelect.add(new Option(place, place));
+  const fromSelect = document.getElementById("from");
+  const toSelect = document.getElementById("to");
+
+  // Populate dropdowns alphabetically
+  places.sort().forEach(place => {
+    fromSelect.add(new Option(place, place));
+    toSelect.add(new Option(place, place));
+  });
+
+  // Update "To" dropdown when "From" changes
+  fromSelect.addEventListener("change", () => {
+    const selectedFrom = fromSelect.value;
+    toSelect.innerHTML = '<option value="">-- Select a place --</option>';
+    places.forEach(place => {
+      if (place !== selectedFrom) {
+        toSelect.add(new Option(place, place));
+      }
     });
-
-    // Update "To" dropdown when "From" changes
-    fromSelect.addEventListener("change", () => {
-      const selectedFrom = fromSelect.value;
-      toSelect.innerHTML = '<option value="">-- Select a place --</option>';
-      places.forEach(place => {
-        if (place !== selectedFrom) {
-          toSelect.add(new Option(place, place));
-        }
-      });
-    });
+  });
 
     // Handle form submission
     document.getElementById("tourForm").addEventListener("submit", (e) => {
