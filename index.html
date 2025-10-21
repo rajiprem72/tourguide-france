@@ -11,15 +11,49 @@
     body {
       font-family: Arial, sans-serif;
       max-width: 420px;
-      margin: 20px auto;
+      margin: 0 auto;
       background: #f7f9fc;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 0;
     }
-    h2 {
-      text-align: center;
+    header {
+      background-color: #0d6efd;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .menu-icon {
+      font-size: 26px;
+      cursor: pointer;
+    }
+    #menu {
+      display: none;
+      background: white;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      border-top: 1px solid #ccc;
+      z-index: 1000;
+    }
+    #menu a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
       color: #0d6efd;
+      border-bottom: 1px solid #eee;
+      font-weight: bold;
+    }
+    #menu a:hover {
+      background-color: #e8f0ff;
+    }
+    main {
+      padding: 20px;
     }
     label {
       display: block;
@@ -48,29 +82,46 @@
   </style>
 </head>
 <body>
-  <h2>Tour Guide France</h2>
-  <form id="tourForm">
-    <label for="name">Name</label>
-    <input type="text" id="name" required />
+  <header>
+    <div class="menu-icon" id="menuToggle">☰</div>
+    <h2>Tour Guide France</h2>
+  </header>
+  <nav id="menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="places.html">📍 Prominent Places</a>
+  </nav>
 
-    <label for="mobile">Mobile</label>
-    <input type="tel" id="mobile" required pattern="[0-9+ ]+" />
+  <main>
+    <form id="tourForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" required />
 
-    <label for="from">From</label>
-    <select id="from" required>
-      <option value="">-- Select a place --</option>
-    </select>
+      <label for="mobile">Mobile</label>
+      <input type="tel" id="mobile" required pattern="[0-9+ ]+" />
 
-    <label for="to">To</label>
-    <select id="to" required>
-      <option value="">-- Select a place --</option>
-    </select>
+      <label for="from">From</label>
+      <select id="from" required>
+        <option value="">-- Select a place --</option>
+      </select>
 
-    <button type="submit">Send Request</button>
-  </form>
+      <label for="to">To</label>
+      <select id="to" required>
+        <option value="">-- Select a place --</option>
+      </select>
+
+      <button type="submit">Send Request</button>
+    </form>
+  </main>
 
   <script>
-    // Categories with subitems
+    // Menu toggle
+    const menuToggle = document.getElementById("menuToggle");
+    const menu = document.getElementById("menu");
+    menuToggle.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    });
+
+    // Categories with subitems (same as before)
     const categories = {
       "Airports": [
         "Charles de Gaulle Airport (CDG)",
@@ -129,10 +180,8 @@
     const fromSelect = document.getElementById("from");
     const toSelect = document.getElementById("to");
 
-    // Populate dropdowns with categories and items
     function populateDropdown(selectElement, excludeItem = "") {
       selectElement.innerHTML = '<option value="">-- Select a place --</option>';
-
       for (const [category, places] of Object.entries(categories)) {
         const group = document.createElement("optgroup");
         group.label = category;
@@ -148,17 +197,14 @@
       }
     }
 
-    // Initialize dropdowns
     populateDropdown(fromSelect);
     populateDropdown(toSelect);
 
-    // Update "To" dropdown when "From" changes
     fromSelect.addEventListener("change", () => {
       const selectedFrom = fromSelect.value;
       populateDropdown(toSelect, selectedFrom);
     });
 
-    // Handle form submission
     document.getElementById("tourForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const name = document.getElementById("name").value.trim();
@@ -171,21 +217,16 @@
         return;
       }
 
-      // Email setup
-      const email = "bklenine@outlook.com"; // 👈 update this email if needed
+      const email = "bklenine@outlook.com";
       const subject = encodeURIComponent("New Tour Request");
       const body = encodeURIComponent(
         `Name: ${name}\nMobile: ${mobile}\nFrom: ${from}\nTo: ${to}`
       );
       window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     });
-  </script>
 
-  <script>
-    // Register service worker for PWA
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service worker registered.'));
+      navigator.serviceWorker.register('service-worker.js');
     }
   </script>
 </body>
