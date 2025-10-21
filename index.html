@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tour Guide France</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0d6efd" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 420px;
+      margin: 20px auto;
+      background: #f7f9fc;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #0d6efd;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 6px;
+    }
+    button {
+      background-color: #0d6efd;
+      color: white;
+      margin-top: 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #0b5ed7;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tour Guide France</h2>
+  <form id="tourForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" required />
+
+    <label for="mobile">Mobile</label>
+    <input type="tel" id="mobile" required pattern="[0-9+ ]+" />
+
+    <label for="from">From</label>
+    <select id="from" required>
+      <option value="">-- Select a place --</option>
+    </select>
+
+    <label for="to">To</label>
+    <select id="to" required>
+      <option value="">-- Select a place --</option>
+    </select>
+
+    <button type="submit">Send Request</button>
+  </form>
+
+  <script>
+    // List of main cities in France
+    const places = ["Bordeaux", "Cannes", "Lille", "Lyon", "Marseille", "Nice", "Paris", "Strasbourg", "Toulouse"];
+
+    const fromSelect = document.getElementById("from");
+    const toSelect = document.getElementById("to");
+
+    // Populate dropdowns alphabetically
+    places.sort().forEach(place => {
+      fromSelect.add(new Option(place, place));
+      toSelect.add(new Option(place, place));
+    });
+
+    // Update "To" dropdown when "From" changes
+    fromSelect.addEventListener("change", () => {
+      const selectedFrom = fromSelect.value;
+      toSelect.innerHTML = '<option value="">-- Select a place --</option>';
+      places.forEach(place => {
+        if (place !== selectedFrom) {
+          toSelect.add(new Option(place, place));
+        }
+      });
+    });
+
+    // Handle form submission
+    document.getElementById("tourForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+
+      if (!name || !mobile || !from || !to) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      // Email setup
+      const email = "YOUR_FRIEND_EMAIL@example.com"; // 👈 change this!
+      const subject = encodeURIComponent("New Tour Request");
+      const body = encodeURIComponent(
+        `Name: ${name}\nMobile: ${mobile}\nFrom: ${from}\nTo: ${to}`
+      );
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    });
+
+    // Register service worker for PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</body>
+</html>
