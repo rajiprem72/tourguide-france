@@ -70,92 +70,93 @@
   </form>
 
   <script>
-    // List of main cities in Paris, France
-  const airports = [
-    "Charles de Gaulle Airport (CDG)",
-    "Orly Airport (ORY)",
-    "Beauvais-Tillé Airport (BVA)",
-    "Le Bourget Airport (LBG)"
-  ];
-  const railwayStations = [
-    "Gare du Nord",
-    "Gare de Lyon",
-    "Gare Montparnasse",
-    "Gare Saint-Lazare",
-    "Gare d’Austerlitz"
-  ];
-  const hotels = [
-    "Hôtel Ritz Paris (5-star)",
-    "Four Seasons Hotel George V Paris (5-star)",
-    "Le Meurice (5-star)",
-    "Shangri-La Hotel Paris (5-star)",
-    "Cheval Blanc Paris (5-star)",
-    // (there is no true “7-star” officially in Paris, but if you want you can label the most luxury)
-    "Hôtel Plaza Athénée (luxury)"
-  ];
-  const parksAndPlaces = [
-    "Eiffel Tower",
-    "Louvre Museum",
-    "Champ de Mars",
-    "Luxembourg Gardens",
-    "Tuileries Garden",
-    "Montmartre / Sacré-Cœur"
-  ];
-  const hospitals = [
-    "Hôpital Européen Georges-Pompidou",
-    "Hôpital Pitié-Salpêtrière",
-    "Hôpital Necker-Enfants Malades"
-  ];
-  const museums = [
-    "Musée du Louvre",
-    "Musée d’Orsay",
-    "Centre Pompidou",
-    "Musée Rodin",
-    "Musée de l’Orangerie"
-  ];
-  const malls = [
-    "Le Bon Marché",
-    "Galeries Lafayette Haussmann",
-    "Forum des Halles",
-    "Carrousel du Louvre"
-  ];
-  const metroAndBus = [
-    "Châtelet–Les Halles (major metro/bus hub)",
-    "Gare de Lyon (metro + bus)",
-    "Montparnasse–Bienvenüe (metro + bus)"
-  ];
+    // Categories with subitems
+    const categories = {
+      "Airports": [
+        "Charles de Gaulle Airport (CDG)",
+        "Orly Airport (ORY)",
+        "Beauvais-Tillé Airport (BVA)",
+        "Le Bourget Airport (LBG)"
+      ],
+      "Railway Stations": [
+        "Gare du Nord",
+        "Gare de Lyon",
+        "Gare Montparnasse",
+        "Gare Saint-Lazare",
+        "Gare d’Austerlitz"
+      ],
+      "Hotels": [
+        "Hôtel Ritz Paris (5-star)",
+        "Four Seasons Hotel George V Paris (5-star)",
+        "Le Meurice (5-star)",
+        "Shangri-La Hotel Paris (5-star)",
+        "Cheval Blanc Paris (5-star)",
+        "Hôtel Plaza Athénée (luxury)"
+      ],
+      "Parks and Places": [
+        "Eiffel Tower",
+        "Louvre Museum",
+        "Champ de Mars",
+        "Luxembourg Gardens",
+        "Tuileries Garden",
+        "Montmartre / Sacré-Cœur"
+      ],
+      "Hospitals": [
+        "Hôpital Européen Georges-Pompidou",
+        "Hôpital Pitié-Salpêtrière",
+        "Hôpital Necker-Enfants Malades"
+      ],
+      "Museums": [
+        "Musée du Louvre",
+        "Musée d’Orsay",
+        "Centre Pompidou",
+        "Musée Rodin",
+        "Musée de l’Orangerie"
+      ],
+      "Malls": [
+        "Le Bon Marché",
+        "Galeries Lafayette Haussmann",
+        "Forum des Halles",
+        "Carrousel du Louvre"
+      ],
+      "Metro and Bus": [
+        "Châtelet–Les Halles (major metro/bus hub)",
+        "Gare de Lyon (metro + bus)",
+        "Montparnasse–Bienvenüe (metro + bus)"
+      ]
+    };
 
-  // Combine all into one list for dropdowns
-  const places = [].concat(
-    airports,
-    railwayStations,
-    hotels,
-    parksAndPlaces,
-    hospitals,
-    museums,
-    malls,
-    metroAndBus
-  );
+    const fromSelect = document.getElementById("from");
+    const toSelect = document.getElementById("to");
 
-  const fromSelect = document.getElementById("from");
-  const toSelect = document.getElementById("to");
+    // Populate dropdowns with categories and items
+    function populateDropdown(selectElement, excludeItem = "") {
+      selectElement.innerHTML = '<option value="">-- Select a place --</option>';
 
-  // Populate dropdowns alphabetically
-  places.sort().forEach(place => {
-    fromSelect.add(new Option(place, place));
-    toSelect.add(new Option(place, place));
-  });
-
-  // Update "To" dropdown when "From" changes
-  fromSelect.addEventListener("change", () => {
-    const selectedFrom = fromSelect.value;
-    toSelect.innerHTML = '<option value="">-- Select a place --</option>';
-    places.forEach(place => {
-      if (place !== selectedFrom) {
-        toSelect.add(new Option(place, place));
+      for (const [category, places] of Object.entries(categories)) {
+        const group = document.createElement("optgroup");
+        group.label = category;
+        places.forEach(place => {
+          if (place !== excludeItem) {
+            const option = document.createElement("option");
+            option.value = place;
+            option.textContent = place;
+            group.appendChild(option);
+          }
+        });
+        selectElement.appendChild(group);
       }
+    }
+
+    // Initialize dropdowns
+    populateDropdown(fromSelect);
+    populateDropdown(toSelect);
+
+    // Update "To" dropdown when "From" changes
+    fromSelect.addEventListener("change", () => {
+      const selectedFrom = fromSelect.value;
+      populateDropdown(toSelect, selectedFrom);
     });
-  });
 
     // Handle form submission
     document.getElementById("tourForm").addEventListener("submit", (e) => {
@@ -171,7 +172,7 @@
       }
 
       // Email setup
-      const email = "bklenine@outlook.com"; // 👈 change this!
+      const email = "bklenine@outlook.com"; // 👈 update this email if needed
       const subject = encodeURIComponent("New Tour Request");
       const body = encodeURIComponent(
         `Name: ${name}\nMobile: ${mobile}\nFrom: ${from}\nTo: ${to}`
@@ -179,13 +180,13 @@
       window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     });
   </script>
+
   <script>
     // Register service worker for PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
-      .then(() => console.log('Service worker registered.'));
+        .then(() => console.log('Service worker registered.'));
     }
-</script>
-
+  </script>
 </body>
 </html>
