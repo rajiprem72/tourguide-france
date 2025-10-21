@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prominent Places — Paris</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0d6efd" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 420px;
+      margin: 0 auto;
+      background: #f7f9fc;
+      padding: 0;
+    }
+    header {
+      background-color: #0d6efd;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .menu-icon {
+      font-size: 26px;
+      cursor: pointer;
+    }
+    #menu {
+      display: none;
+      background: white;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      border-top: 1px solid #ccc;
+      z-index: 1000;
+    }
+    #menu a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
+      color: #0d6efd;
+      border-bottom: 1px solid #eee;
+      font-weight: bold;
+    }
+    #menu a:hover {
+      background-color: #e8f0ff;
+    }
+    main {
+      padding: 15px;
+    }
+    .place {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .place h3 {
+      margin: 0;
+      color: #0d6efd;
+    }
+    .place p {
+      font-size: 15px;
+      color: #333;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="menu-icon" id="menuToggle">☰</div>
+    <h2>Prominent Places — Paris</h2>
+  </header>
+
+  <nav id="menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="places.html">📍 Prominent Places</a>
+  </nav>
+
+  <main>
+    <div class="place">
+      <h3>1️⃣ Eiffel Tower</h3>
+      <p>The symbol of Paris, the Eiffel Tower offers breathtaking panoramic views from its observation decks. Built in 1889, it remains the city’s most visited landmark and a must-see for all tourists.</p>
+    </div>
+    <div class="place">
+      <h3>2️⃣ Louvre Museum</h3>
+      <p>Home to the world-famous Mona Lisa, the Louvre is the largest art museum globally. Its vast collection spans from ancient civilizations to 19th-century masterpieces.</p>
+    </div>
+    <div class="place">
+      <h3>3️⃣ Notre-Dame Cathedral</h3>
+      <p>This Gothic masterpiece on Île de la Cité is renowned for its architectural beauty and stunning stained-glass windows. Though under restoration, it remains an icon of Parisian heritage.</p>
+    </div>
+    <div class="place">
+      <h3>4️⃣ Champs-Élysées & Arc de Triomphe</h3>
+      <p>The grand avenue of Paris, lined with boutiques and cafés, leads to the majestic Arc de Triomphe — a monument honoring French military victories.</p>
+    </div>
+    <div class="place">
+      <h3>5️⃣ Montmartre & Sacré-Cœur Basilica</h3>
+      <p>This artistic hilltop district offers sweeping views of Paris. The white domes of Sacré-Cœur and its bohemian streets have long inspired painters and musicians.</p>
+    </div>
+    <div class="place">
+      <h3>6️⃣ Palace of Versailles</h3>
+      <p>Just outside Paris, the opulent Palace of Versailles showcases French royal grandeur with its Hall of Mirrors, lavish gardens, and rich history.</p>
+    </div>
+    <div class="place">
+      <h3>7️⃣ Musée d’Orsay</h3>
+      <p>Housed in a former railway station, Musée d’Orsay displays the finest Impressionist and Post-Impressionist art from Monet, Van Gogh, and Degas.</p>
+    </div>
+    <div class="place">
+      <h3>8️⃣ Luxembourg Gardens</h3>
+      <p>A peaceful escape in the heart of Paris, the Luxembourg Gardens offer beautiful lawns, fountains, and statues — a perfect spot for relaxation.</p>
+    </div>
+    <div class="place">
+      <h3>9️⃣ Seine River Cruise</h3>
+      <p>Enjoy Paris from a new perspective on a cruise along the River Seine, passing illuminated monuments like the Louvre, Eiffel Tower, and Notre-Dame.</p>
+    </div>
+    <div class="place">
+      <h3>🔟 Centre Pompidou</h3>
+      <p>This modern architectural marvel houses the National Museum of Modern Art and is known for its colorful, industrial-style exterior.</p>
+    </div>
+  </main>
+
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const menu = document.getElementById("menu");
+    menuToggle.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>
