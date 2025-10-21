@@ -35,3 +35,18 @@ No backend or database is required — simple and lightweight.
    - To (dropdown — excludes selected From)
 3. Taps **“Send Request”**
 4. The app opens the user’s email app with all details:
+5. The email is sent to the tour guide’s inbox.
+
+---
+
+## 🌐 Live Demo
+👉 [https://yourusername.github.io/tourguide-france/](https://yourusername.github.io/tourguide-france/)
+
+---
+
+## ⚙️ Setup Instructions
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/tourguide-france.git
+cd tourguide-france
